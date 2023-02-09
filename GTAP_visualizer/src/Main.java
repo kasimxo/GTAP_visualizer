@@ -78,30 +78,49 @@ public class Main extends JPanel {
         
          while (1==1) {
         	 
+        	 boolean modificado = false;
+        	 
+        	 System.out.println(hovering);
+        	 
         	 if(hovering) {
+        		 
         		 popup.setVisible(true);
         		 popup.repaint();
+        		 
+        	 } else {
+        		 popup.setVisible(false);
         	 }
         	 
-        	 int ratonX = MouseInfo.getPointerInfo().getLocation().x;
-             int ratonY = MouseInfo.getPointerInfo().getLocation().y;
-             
-             System.out.println(ratonX + "  " +ratonY);
-             
              for (Pelota circulo : pelotas) {
-				int distanciaX = ratonX-circulo.getPosX();
-				int distanciaY = ratonY-circulo.getPosY();
-				int limite = 50;
-				if(distanciaX<limite && distanciaX>-limite && distanciaY<limite && distanciaY>-limite) {
-					System.out.println("Estas encima de un participante"+distanciaX + " " + distanciaY);
-					System.out.println(circulo);
-					hovering = true;
-					visualizando = (Corredor) circulo;
-				} else {
-					hovering = false;
-				}
+            	 
+            	 try {
+            		
+            		int ratonXinPanel = panel.getMousePosition().x;
+                	int ratonYinPanel = panel.getMousePosition().y;
+                	int distanciaX = ratonXinPanel-circulo.getPosX();
+     				int distanciaY = ratonYinPanel-circulo.getPosY();
+     				int limite = 8;
+     				
+     				if(distanciaX<limite && distanciaX>-limite && distanciaY<limite && distanciaY>-limite) {
+     					System.out.println("Estas encima de un participante"+distanciaX + " " + distanciaY);
+     					System.out.println(circulo);
+     					hovering = true;
+     					visualizando = (Corredor) circulo;
+     					System.out.println(hovering);
+     					modificado = true;
+     				} 
+     					
+            	 } catch (NullPointerException e) {
+            		 e.getStackTrace();
+            		 System.err.println("El ratón esta fuera del panel.");
+            	 }
+				
 			}
-        	 
+        	
+             if (!modificado && hovering) {
+            	 hovering = false;
+             }
+             
         	 panel.repaint();
         	 
         	 try {

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Input {
 	
-	private static String root = "C:\\Users\\Andrés\\workspace\\GravityBall\\data\\";
+	private static String root = "C:\\Users\\Andrés\\git\\repository2\\GTAP_visualizer\\data\\";
 	
 	/**
 	 * Este método de lee un archivo y te devuelve un listado separado por las líneas del archivo. 
