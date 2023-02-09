@@ -7,9 +7,13 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Main extends JPanel {
@@ -23,6 +27,11 @@ public class Main extends JPanel {
     private static boolean hovering = false;
     private static Corredor visualizando;
     private static JFrame popup = new JFrame();
+	private static JLabel dorsal = new JLabel();
+	private static String path = "C:\\Users\\Andrés\\git\\repository2\\GTAP_visualizer\\data\\cropped-GTTAP-logo-32x32.png";
+	//private static Path filepath = Paths.get(path);
+	private static ImageIcon img = new ImageIcon(path);
+
 
 	public void paintComponent(Graphics g) {
 		
@@ -50,10 +59,13 @@ public class Main extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(panel, BorderLayout.CENTER);
         frame.setVisible(true);
+        frame.setTitle("Gran Trail Aneto Posets");
+        frame.setIconImage(img.getImage());
         
-        popup.getContentPane().setPreferredSize(new Dimension(width/10,height/10));
+        popup.getContentPane().setPreferredSize(new Dimension(300,250));
         popup.pack();
         popup.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        popup.setIconImage(img.getImage());
         popup.setVisible(false);
         
         for (Pelota pelota : pelotas) {
@@ -84,7 +96,14 @@ public class Main extends JPanel {
         	 
         	 if(hovering) {
         		 
+        		 popup.setTitle(visualizando.getNombre());
+        		 try {
+        		 popup.setLocation(panel.getMousePosition().x+15, panel.getMousePosition().y+30);
         		 popup.setVisible(true);
+        		 } catch (NullPointerException e) {
+        			 System.err.println("NullPointerException");
+        		 }
+        		 addCorredor(popup);
         		 popup.repaint();
         		 
         	 } else {
@@ -131,6 +150,11 @@ public class Main extends JPanel {
 			}
         	
          }
+	}
+
+	private static void addCorredor(JFrame popup2) {
+		dorsal.setText(String.format("<html> Posición: %s<br>Nombre: %s <br>Dorsal: %s<br>Ritmo: %s", visualizando.getPosicion(),visualizando.getNombre(), visualizando.getDorsal(),visualizando.getRitmo()));
+		popup2.add(dorsal);
 	}
 
 }
